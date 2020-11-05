@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
+using System.Numerics;
 using System.Text;
 
 namespace EmployeePayroll_Ado.Net
@@ -14,11 +16,9 @@ namespace EmployeePayroll_Ado.Net
         public char Gender { get; set; }
         public decimal BasicPay { get; set; }
         public double Deductions { get; set; }
-        public double TaxablePay { get; set; }
+        public SqlSingle TaxablePay { get; set; }
         public double Tax { get; set; }
-        public double NetPay { get; set; }
+        public SqlSingle NetPay { get; set; }
         public DateTime StartDate { get; set; }
-        public string City { get; set; }
-        public double Country { get; set; }
     }
 }
