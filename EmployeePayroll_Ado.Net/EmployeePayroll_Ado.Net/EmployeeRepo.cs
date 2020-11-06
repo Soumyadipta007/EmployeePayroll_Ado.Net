@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Collections.Generic;
 using System.Text;
+using System.Data.SqlTypes;
 
 namespace EmployeePayroll_Ado.Net
 {
@@ -91,7 +92,7 @@ namespace EmployeePayroll_Ado.Net
             {
                 throw new Exception(e.Message);
             }
-        }
+        }        
     }
 }
 
