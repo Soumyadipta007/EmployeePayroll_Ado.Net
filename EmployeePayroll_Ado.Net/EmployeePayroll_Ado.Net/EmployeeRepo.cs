@@ -142,6 +142,36 @@ namespace EmployeePayroll_Ado.Net
                 this.connection.Close();
             }
         }
+        public void SumOfSalaryGenderWise()
+        {
+            SqlConnection connection = new SqlConnection(connectionString);
+            try
+            {
+                using (connection)
+                {
+                    string query = @"SELECT sum(basic_pay) as CombineSalary from employee_payroll where gender='M' group by gender";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    connection.Open();
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        while (dr.Read())
+                        {
+                            Console.Write("Sum of salary of all male employees = "+dr.GetDecimal(0));
+                        }
+                        Console.WriteLine();
+                    }
+                    else
+                    {
+                        Console.WriteLine("No data found");
+                    }
+                }
+            }
+            catch (Exception exception)
+            {
+                Console.WriteLine(exception.Message);
+            }
+        }
     }
 }
 

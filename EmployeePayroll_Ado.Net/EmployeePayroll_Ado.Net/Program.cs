@@ -9,7 +9,8 @@ namespace EmployeePayroll_Ado.Net
             Console.WriteLine("Welcome to Employee Payroll!");
             EmployeeRepo repo = new EmployeeRepo();
             repo.checkConnection();
-            repo.GetAllEmployee();           
+            repo.GetAllEmployee();
+            repo.SumOfSalaryGenderWise();
         }
     }
 }
