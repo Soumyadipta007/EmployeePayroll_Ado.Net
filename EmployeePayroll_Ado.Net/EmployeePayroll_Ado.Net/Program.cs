@@ -10,7 +10,7 @@ namespace EmployeePayroll_Ado.Net
             EmployeeRepo repo = new EmployeeRepo();
             repo.checkConnection();
             repo.GetAllEmployee();
-            repo.SumOfSalaryGenderWise();
+            repo.GetAggregateSalaryDetailsByGender();
         }
     }
 }

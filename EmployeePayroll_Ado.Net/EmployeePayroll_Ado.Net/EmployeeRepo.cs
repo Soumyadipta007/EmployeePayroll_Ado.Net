@@ -142,34 +142,43 @@ namespace EmployeePayroll_Ado.Net
                 this.connection.Close();
             }
         }
-        public void SumOfSalaryGenderWise()
+        public void GetAggregateSalaryDetailsByGender()
         {
-            SqlConnection connection = new SqlConnection(connectionString);
+            connection = new SqlConnection(connectionString);
             try
             {
-                using (connection)
+                string query = @"select Gender,SUM(basic_pay),AVG(basic_pay),MIN(basic_pay),MAX(basic_pay),COUNT(id)
+                               from employee_payroll group by gender";
+                SqlCommand command = new SqlCommand(query, this.connection);
+                this.connection.Open();
+                SqlDataReader dr = command.ExecuteReader();
+                if (dr.HasRows)
                 {
-                    string query = @"SELECT sum(basic_pay) as CombineSalary from employee_payroll where gender='M' group by gender";
-                    SqlCommand command = new SqlCommand(query, connection);
-                    connection.Open();
-                    SqlDataReader dr = command.ExecuteReader();
-                    if (dr.HasRows)
+                    Console.WriteLine("Gender\tSUM\t\tAVG\t\tMIN\t\tMAX\t\tCount");
+                    while (dr.Read())
                     {
-                        while (dr.Read())
-                        {
-                            Console.Write("Sum of salary of all male employees = "+dr.GetDecimal(0));
-                        }
-                        Console.WriteLine();
-                    }
-                    else
-                    {
-                        Console.WriteLine("No data found");
+                        string gender = dr.GetString(0);
+                        decimal SUM = dr.GetDecimal(1);
+                        decimal AVG = dr.GetDecimal(2);
+                        decimal MIN = dr.GetDecimal(3);
+                        decimal MAX = dr.GetDecimal(4);
+                        int Count = dr.GetInt32(5);
+                        Console.WriteLine(gender + "\t" + SUM + "\t" + AVG + "\t" + MIN + "\t" + MAX + "\t" + Count);
+                        Console.WriteLine("\n");
                     }
                 }
+                else
+                {
+                    Console.WriteLine("No such records found");
+                }
             }
-            catch (Exception exception)
+            catch (Exception e)
             {
-                Console.WriteLine(exception.Message);
+                Console.WriteLine(e.Message);
+            }
+            finally
+            {
+                this.connection.Close();
             }
         }
     }
