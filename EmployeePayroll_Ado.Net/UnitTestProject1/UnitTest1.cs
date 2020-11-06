@@ -18,5 +18,12 @@ namespace UnitTestProject1
             EmployeeRepo repo = new EmployeeRepo();
             Assert.AreEqual(3000000, repo.updateSalary());
         }
+        [TestMethod]
+        public void GivenDateRangeGetEmployeeName()
+        {
+            EmployeeRepo repo = new EmployeeRepo();
+            var result = repo.GetEmployeesJoiningAfterADate();
+            Assert.AreEqual("Bill", result[0]);
+        }
     }
 }

@@ -92,7 +92,56 @@ namespace EmployeePayroll_Ado.Net
             {
                 throw new Exception(e.Message);
             }
-        }        
+        }
+        public List<string> GetEmployeesJoiningAfterADate()
+        {
+            EmployeeModel employeeModel = new EmployeeModel();
+            List<string> results = new List<string>();
+            try
+            {
+                using (connection)
+                {
+                    string query = @"SELECT * FROM employee_payroll where start between CAST('2018-01-01' AS DATE) AND CAST('2020-11-05' AS DATE)";
+                    SqlCommand command = new SqlCommand(query, connection);
+                    this.connection.Open();
+                    SqlDataReader dr = command.ExecuteReader();
+                    if (dr.HasRows)
+                    {
+                        Console.WriteLine("YeS");
+                        while (dr.Read())
+                        {
+                            employeeModel.EmployeeID = dr.GetInt32(0);
+                            employeeModel.EmployeeName = dr.GetString(1);
+                            employeeModel.BasicPay = dr.GetDecimal(2);
+                            employeeModel.StartDate = dr.GetDateTime(3);
+                            employeeModel.Gender = Convert.ToChar(dr.GetString(4));
+                            employeeModel.PhoneNumber = dr.GetString(5);
+                            employeeModel.Address = dr.GetString(6);
+                            employeeModel.Department = dr.GetString(7);
+                            employeeModel.Deductions = dr.GetDouble(8);
+                            employeeModel.TaxablePay = dr.GetSqlSingle(9);
+                            employeeModel.Tax = dr.GetDouble(10);
+                            employeeModel.NetPay = dr.GetSqlSingle(11);
+                            results.Add(employeeModel.EmployeeName);
+                        }
+                        dr.Close();
+                        return results;
+                    }
+                    else
+                    {
+                        throw new Exception("No data found");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+            finally
+            {
+                this.connection.Close();
+            }
+        }
     }
 }
 
